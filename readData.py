@@ -54,3 +54,19 @@ def eigen(data):
     cov = np.cov(z.T)
     eigenvalues, eigenvectors = np.linalg.eigh(cov)
     return eigenvalues, eigenvectors
+
+def data_Split2(data, y):
+    y_samples = []
+    y_test = []
+    d_samples = []
+    d_test = []
+    i = 0
+    while i < len(y) :
+        if i%10 <7 :
+          y_samples.append(y[i])
+          d_samples.append(data[i])
+        else:
+          y_test.append(y[i])
+          d_test.append(data[i])
+        i +=1
+    return np.array(d_samples), np.array(d_test), np.array(y_samples), np.array(y_test)
