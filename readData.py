@@ -1,4 +1,6 @@
 import numpy as np
+
+
 # take a path of pgm image and return vector represent the image data
 def read_image(image_path):
     f = open(image_path, 'rb')
@@ -45,3 +47,10 @@ def data_Split(data, y):
 
     return np.array(d_samples), np.array(d_test), np.array(y_samples), np.array(y_test)
 
+
+def eigen(data):
+    mean_vector = np.mean(data, axis=0)
+    z = data - mean_vector
+    cov = np.cov(z.T)
+    eigenvalues, eigenvectors = np.linalg.eigh(cov)
+    return eigenvalues, eigenvectors
