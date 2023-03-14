@@ -69,7 +69,6 @@ def PCA(data, alpha, eigvalues, eigvectors):
     idx = np.argsort(eigenvalues)[::-1]
     eigenvalues = eigenvalues[idx]
     eigenvectors = eigenvectors[:, idx]
-
     # get the value of r according alpha
     eigenvalues_sum = 0
     r_sum = 0
@@ -93,8 +92,8 @@ def organizeTest(mean_vector, p, d_test):
 
 
 # get predict labels vector for testing data
-def get_predict(d_samples, d_test, y_samples):
-    classifier = KNeighborsClassifier(n_neighbors=1)
+def get_predict(d_samples, d_test, y_samples , k):
+    classifier = KNeighborsClassifier(n_neighbors=k , weights='distance')
     classifier.fit(d_samples, y_samples)
     y_pred = classifier.predict(d_test)
     return y_pred
@@ -109,13 +108,21 @@ def get_accuracy_report():
     data = read_data()
     d_samples, d_test, y_samples, y_test = data_Split(data[0], data[1])
     alpha = np.array([0.8, 0.85, 0.9, 0.95])
+    k = np.array([1,3,5,7])
     eigenvalues, eigenvectors = eigen(d_samples)
+    output = []
     for i in range(4):
-        mean_vector, p, trans_data = PCA(d_samples, alpha[i], eigenvalues, eigenvectors)
-        d_test_trans = organizeTest(mean_vector, p, d_test)
-        y_pre = get_predict(trans_data, d_test_trans, y_samples)
-        accuracy = get_accuracy(y_test, y_pre)
-        print("For alpha =  " + str(alpha[i]) + "  accuracy = " + str(accuracy))
+        row = []
+        for j in range(4):
+            mean_vector, p, trans_data = PCA(d_samples, alpha[i], eigenvalues, eigenvectors)
+            d_test_trans = organizeTest(mean_vector, p, d_test)
+            y_pre = get_predict(trans_data, d_test_trans, y_samples , k[j])
+            accuracy = get_accuracy(y_test, y_pre)
+            row.append(accuracy)
+        output.append(row)
+    return np.array(output)
 
 
-get_accuracy_report()
+
+out = get_accuracy_report()
+print(out)

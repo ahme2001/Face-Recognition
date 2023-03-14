@@ -1,4 +1,6 @@
 import numpy as np
+
+
 # take a path of pgm image and return vector represent the image data
 def read_image(image_path):
     f = open(image_path, 'rb')
@@ -43,11 +45,19 @@ def data_Split(data, y):
         d_samples.append(data[i])
         d_test.append(data[i + 1])
         i += 2
-
     return np.array(d_samples), np.array(d_test), np.array(y_samples), np.array(y_test)
 
 # function get data matrix and label vector and split each one to two matrix , one as a samples and one for testing
 # to split data into 70:30
+
+
+def eigen(data):
+    mean_vector = np.mean(data, axis=0)
+    z = data - mean_vector
+    cov = np.cov(z.T)
+    eigenvalues, eigenvectors = np.linalg.eigh(cov)
+    return eigenvalues, eigenvectors
+
 def data_Split2(data, y):
     y_samples = []
     y_test = []
