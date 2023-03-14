@@ -1,0 +1,9 @@
+sklearn.discriminant_analysis
+sklearn.decomposition 
+sklearn.neighbors 
+sklearn.metrics 
+matplotlib.pyplot
+numpy
+scipy
+time
+cv2

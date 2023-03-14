@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
+
 import readData as data
 
 def LDA(data,label):
